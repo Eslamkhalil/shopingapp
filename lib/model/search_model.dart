@@ -1,39 +1,39 @@
 class SearchModel {
-  bool status;
-  Null message;
-  Data data;
+  late bool status;
+  String?  message;
+  Data? data;
 
 
   SearchModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['data'] != null ?  Data.fromJson(json['data']) : null;
   }
 
 
 }
 
 class Data {
-  int currentPage;
-  List<ProductSearchItem> product;
-  String firstPageUrl;
-  int from;
-  int lastPage;
-  String lastPageUrl;
-  Null nextPageUrl;
-  String path;
-  int perPage;
-  Null prevPageUrl;
-  int to;
-  int total;
+  int? currentPage;
+  List<ProductSearchItem>? product;
+  String? firstPageUrl;
+  int? from;
+  int? lastPage;
+  String? lastPageUrl;
+  String? nextPageUrl;
+  String? path;
+  int? perPage;
+  String? prevPageUrl;
+  int? to;
+  int? total;
 
 
   Data.fromJson(Map<String, dynamic> json) {
     currentPage = json['current_page'];
     if (json['data'] != null) {
-      product = new List<ProductSearchItem>();
+      product = [];
       json['data'].forEach((v) {
-        product.add(new ProductSearchItem.fromJson(v));
+        product?.add( ProductSearchItem.fromJson(v));
       });
     }
     firstPageUrl = json['first_page_url'];
@@ -52,14 +52,14 @@ class Data {
 }
 
 class ProductSearchItem {
-  int id;
-  dynamic price;
-  String image;
-  String name;
-  String description;
-  List<String> images;
-  bool inFavorites;
-  bool inCart;
+  late int id;
+  late dynamic price;
+  late String image;
+  late String name;
+  late String description;
+  late List<String> images;
+  late bool inFavorites;
+  late bool inCart;
 
 
 

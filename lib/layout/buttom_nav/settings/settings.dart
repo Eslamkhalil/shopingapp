@@ -1,4 +1,3 @@
-import 'package:conditional_builder/conditional_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopingapp/modules/home_screen/cubit/cubit.dart';
@@ -13,19 +12,19 @@ class Settings extends StatelessWidget {
   final emailController = TextEditingController();
 
   final formKey = GlobalKey<FormState>();
-
+/*
+* */
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<HomeShopCubit, HomeShopAppStates>(
       listener: (context, state) {},
       builder: (context, state) {
         var cubit = HomeShopCubit.get(context);
-        nameController.text = cubit.userData.data.name;
-        phoneController.text = cubit.userData.data.phone;
-        emailController.text = cubit.userData.data.email;
-        return ConditionalBuilder(
-          condition: cubit.userData != null,
-          builder: (context) => Form(
+        if(cubit.userData != null){
+          nameController.text = cubit.userData!.data!.name!;
+          phoneController.text = cubit.userData!.data!.phone!;
+          emailController.text = cubit.userData!.data!.email!;
+          return Form(
             key: formKey,
             child: SingleChildScrollView(
               child: Padding(
@@ -67,7 +66,7 @@ class Settings extends StatelessWidget {
                     defaultButton(
                         buttonTitle: 'UPDATE',
                         onTap: () {
-                          if (formKey.currentState.validate()) {
+                          if (formKey.currentState!.validate()) {
                             cubit.updateUser(
                               name: nameController.text,
                               phone: phoneController.text,
@@ -87,9 +86,12 @@ class Settings extends StatelessWidget {
                 ),
               ),
             ),
-          ),
-          fallback: (context) => Center(child: CircularProgressIndicator()),
-        );
+          );
+        }else {
+          return  Center(child: CircularProgressIndicator());
+        }
+
+
       },
     );
   }

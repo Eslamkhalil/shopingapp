@@ -1,5 +1,4 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:conditional_builder/conditional_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,35 +15,34 @@ class Products extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<HomeShopCubit, HomeShopAppStates>(
       listener: (context, state) {
-        if(state is ChangeFavoritesShopAppSuccessState){
-          if(!state.model.status){
-            showToast(text: state.model.message, state: ToastState.ERROR);
+        if (state is ChangeFavoritesShopAppSuccessState) {
+          if (!state.model.status) {
+            showToast(text: state.model.message!, state: ToastState.ERROR);
           }
         }
-
       },
       builder: (context, state) {
         var cubit = HomeShopCubit.get(context);
-        return ConditionalBuilder(
-          condition: cubit.homeModel != null && cubit.categoriesModel != null,
-          builder: (context) =>
-              builderWidget(cubit.homeModel, cubit.categoriesModel,context),
-          fallback: (context) => Center(
-            child: CircularProgressIndicator(),
-          ),
-        );
+        return cubit.homeModel != null && cubit.categoriesModel !=null
+            ? builderWidget(cubit.homeModel!, cubit.categoriesModel, context)
+            : Center(
+                child: CircularProgressIndicator(),
+              );
       },
     );
   }
 
-  Widget builderWidget(HomeModel model, CategoriesModel categoriesModel, context) =>
+
+
+  Widget builderWidget(
+          HomeModel model, categoriesModel ,context) =>
       SingleChildScrollView(
         physics: BouncingScrollPhysics(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             CarouselSlider(
-                items: model.data.banners
+                items: model.data!.banners
                     .map((e) => Image(
                           image: NetworkImage('${e.image}'),
                           width: double.infinity,
@@ -112,15 +110,17 @@ class Products extends StatelessWidget {
                 mainAxisSpacing: 1.0,
                 crossAxisSpacing: 2.5,
                 childAspectRatio: 1 / 1.48,
-                children: List.generate(model.data.products.length,
-                    (index) => buildGridItem(model.data.products[index],context)),
+                children: List.generate(
+                    model.data!.products.length,
+                    (index) =>
+                        buildGridItem(model.data!.products[index], context)),
               ),
             ),
           ],
         ),
       );
 
-  Widget buildGridItem(ProductModel model , context) {
+  Widget buildGridItem(ProductModel model, context) {
     return Container(
       color: Colors.white,
       child: Column(
@@ -203,7 +203,9 @@ class Products extends StatelessWidget {
                         },
                         icon: Icon(
                           Icons.favorite,
-                          color: HomeShopCubit.get(context).favorites[model.id] ? Colors.deepOrange : Colors.grey ,
+                          color: HomeShopCubit.get(context).favorites[model.id]!
+                              ? Colors.deepOrange
+                              : Colors.grey,
                         )),
                   ],
                 ),

@@ -11,13 +11,14 @@ import 'modules/onboarding_screen/onboarding_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await CacheHelper.init();
   DioHelper.init();
   Bloc.observer = MyBlocObserver();
-  bool onboard = CacheHelper.getData(key: 'onBoarding');
+  bool? onboard = CacheHelper.getData(key: 'onBoarding');
   token = CacheHelper.getData(key: 'token');
-  Widget widget;
-  if (onboard!= null) {
+   Widget widget;
+  if (onboard != null) {
     if (token != null) {
       widget = Home();
     } else {

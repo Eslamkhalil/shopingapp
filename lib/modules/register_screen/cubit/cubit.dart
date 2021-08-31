@@ -1,10 +1,8 @@
 import 'package:bloc/bloc.dart';
-import 'package:flutter/animation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopingapp/model/user_model.dart';
-import 'package:shopingapp/modules/login_screen/cubit/states.dart';
 import 'package:shopingapp/modules/register_screen/cubit/states.dart';
 import 'package:shopingapp/network/remote/dio_helper.dart';
 import 'package:shopingapp/shared/components/end_point.dart';
@@ -16,7 +14,7 @@ class ShopRegisterCubit extends Cubit<ShopRegisterStates> {
 
   bool isPasswordShown = true;
   IconData sufIcon = Icons.visibility_outlined;
-  UserModel _userModel;
+   UserModel? _userModel;
 
   void changePasswordVisibility() {
     isPasswordShown = !isPasswordShown;
@@ -28,16 +26,19 @@ class ShopRegisterCubit extends Cubit<ShopRegisterStates> {
   }
 
   void userRegister(
-      {@required String email,@required  String password,@required  String phone,@required  String name}) {
+      {required String email,required  String password,required  String phone,required  String name}) {
     emit(ShopRegisterLoadingState());
-    DioHelper.postData(url: REGISTER, data: {
+    DioHelper.postData(url: REGISTER,
+        query: {},
+        token: '',
+        data: {
       'name':name,
       'phone':phone,
       'email': email,
       'password': password,
     }).then((value) {
       _userModel = UserModel.fromJson(value.data);
-      emit(ShopRegisterSuccessState(_userModel));
+      emit(ShopRegisterSuccessState(_userModel!));
 
     }).catchError((onError) {
       emit(ShopRegisterErrorState(onError.toString()));

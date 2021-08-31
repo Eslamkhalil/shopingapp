@@ -54,6 +54,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         actions: [
           defaultTextButton(
             tap:onBoardingSaved,
+            color: Colors.blue,
             title: 'SKIP',
           ),
         ],

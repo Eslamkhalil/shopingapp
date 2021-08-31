@@ -4,7 +4,7 @@ import 'package:shopingapp/network/local/cache_helper.dart';
 
 import 'components.dart';
 
-String token = '';
+String? token;
 
 void logOut(context){
   CacheHelper.removeData(key: 'token');

@@ -1,5 +1,6 @@
 
 import 'package:shopingapp/model/change_favorites_model.dart';
+import 'package:shopingapp/model/home_model.dart';
 
 abstract class HomeShopAppStates {}
 
@@ -13,7 +14,11 @@ class HomeShopAppErrorState extends HomeShopAppStates{
   HomeShopAppErrorState(this.error);
 }
 
-class HomeShopAppSuccessState extends HomeShopAppStates{}
+class HomeShopAppSuccessState extends HomeShopAppStates{
+  final HomeModel model;
+
+  HomeShopAppSuccessState(this.model);
+}
 
 class ChangeBottomNavHomeShopAppState extends HomeShopAppStates{}
 
@@ -25,6 +30,7 @@ class CategoryShopAppErrorState extends HomeShopAppStates{
 }
 
 class  CategoryShopAppSuccessState extends HomeShopAppStates{}
+class  CategoryShopAppLoadingState extends HomeShopAppStates{}
 
 class ChangeFavoritesShopAppErrorState extends HomeShopAppStates{
   final String error;

@@ -31,14 +31,14 @@ class ShopLogin extends StatelessWidget {
 
           if (state is ShopLoginSuccessState){
             if(state.model.status){
+              print('token is'+'${state.model.data!.token}');
               print('true ya3m el7g');
-              print('token is'+'${state.model.data.token}');
-              CacheHelper.saveData(key: 'token', value : state.model.data.token);
-              showToast(text: state.model.message,state: ToastState.SUCCESS);
+              CacheHelper.saveData(key: 'token', value : state.model.data!.token);
+              showToast(text: state.model.message!,state: ToastState.SUCCESS);
               navigateAndFinish(context: context,widget: Home());
 
             }else{
-              showToast(text: state.model.message,state: ToastState.ERROR);
+              showToast(text: state.model.message!,state: ToastState.ERROR);
               //print(state.model.message);
             }
           }
@@ -101,7 +101,7 @@ class ShopLogin extends StatelessWidget {
                         defaultButton(
                             buttonTitle: 'Login',
                             onTap: (){
-                              if(formKey.currentState.validate()){
+                              if(formKey.currentState!.validate()){
                                 ShopLoginCubit.get(context).userLogin(emailController.text, passwordController.text);
                               }
                             }
@@ -113,12 +113,13 @@ class ShopLogin extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             defaultTextButton(
-                                title: "Don't have an account ?"
+                                title: "Don't have an account ?", color: Colors.blue
                             ),
 
                             defaultTextButton(
                                 title: 'Register',
                                 color: Colors.blue,
+
                                 tap: (){
                                   navigateTo(
                                     context: context,

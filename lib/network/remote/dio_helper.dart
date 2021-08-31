@@ -1,8 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 
 class DioHelper {
-  static Dio dio;
+  static late Dio dio;
 
   static init() {
     dio = Dio(BaseOptions(
@@ -12,10 +11,10 @@ class DioHelper {
   }
 
   static Future<Response> getData({
-    @required String url,
+    required String url,
     String lang= 'ar',
-    String token,
-    Map<String, dynamic> query,
+    String? token,
+    Map<String, dynamic>? query,
   }) async {
     dio.options.headers ={
       'Content-Type': 'application/json',
@@ -26,11 +25,11 @@ class DioHelper {
   }
 
   static Future<Response> postData({
-    @required String url,
-    Map<String, dynamic> query,
-    @required Map<String, dynamic> data,
+    required String url,
+    Map<String, dynamic>? query,
+    required Map<String, dynamic> data,
     String lang= 'ar',
-    String token,
+    String? token,
   }) async {
     dio.options.headers ={
       'Content-Type': 'application/json',
@@ -45,11 +44,11 @@ class DioHelper {
   }
 
   static Future<Response> putData({
-    @required String url,
-    Map<String, dynamic> query,
-    @required Map<String, dynamic> data,
+    required String url,
+    Map<String, dynamic>? query,
+    required Map<String, dynamic> data,
     String lang= 'ar',
-    String token,
+    String? token,
   }) async {
     dio.options.headers ={
       'Content-Type': 'application/json',

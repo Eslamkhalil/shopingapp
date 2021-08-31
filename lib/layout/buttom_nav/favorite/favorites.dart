@@ -1,4 +1,3 @@
-import 'package:conditional_builder/conditional_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopingapp/model/get_favorites_model.dart';
@@ -15,18 +14,24 @@ class Favorites extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         var cubit = HomeShopCubit.get(context);
-        return ConditionalBuilder(
-          condition: state is! GetFavoritesShopAppLoadingState,
-          builder: (context) => ListView.separated(
-              itemBuilder: (context, index) =>
-                  buildFavItem(cubit.favoritesModel.data.data[index], context),
-              separatorBuilder: (context, index) => myDivider(),
-              itemCount: cubit.favoritesModel.data.data.length),
-          fallback: (context) => Center(child: CircularProgressIndicator()),
-        );
+        return cubit.favoritesModel != null
+            ? ListView.separated(
+                itemBuilder: (context, index) => buildFavItem(
+                    cubit.favoritesModel!.data!.data![index], context),
+                separatorBuilder: (context, index) => myDivider(),
+                itemCount: cubit.favoritesModel!.data!.data!.length)
+            : Center(child: CircularProgressIndicator());
       },
     );
   }
+
+  /*
+  * ConditionalBuilder(
+          condition: state is! GetFavoritesShopAppLoadingState,
+          builder: (context) =>,
+          fallback: (context) => Center(child: CircularProgressIndicator()),
+        );
+  * */
 
   Widget buildFavItem(FavoritesData model, context) => Padding(
         padding: const EdgeInsets.all(16.0),
@@ -42,7 +47,7 @@ class Favorites extends StatelessWidget {
                   alignment: Alignment.bottomLeft,
                   children: [
                     Image(
-                      image: NetworkImage(model.product.image),
+                      image: NetworkImage(model.product!.image),
                       height: 120.0,
                       width: 120.0,
                     ),
@@ -70,7 +75,7 @@ class Favorites extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      model.product.name,
+                      model.product!.name,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 2,
                       style: TextStyle(
@@ -87,7 +92,7 @@ class Favorites extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          '${model.product.price}',
+                          '${model.product!.price}',
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
                           style: TextStyle(
@@ -100,9 +105,9 @@ class Favorites extends StatelessWidget {
                         SizedBox(
                           width: 8.0,
                         ),
-                        if (model.product.oldPrice != 0)
+                        if (model.product!.oldPrice != 0)
                           Text(
-                            '${model.product.oldPrice}',
+                            '${model.product!.oldPrice}',
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                             style: TextStyle(
@@ -116,12 +121,12 @@ class Favorites extends StatelessWidget {
                         IconButton(
                             onPressed: () {
                               HomeShopCubit.get(context)
-                                  .changeFavorites(model.product.id);
+                                  .changeFavorites(model.product!.id);
                             },
                             icon: Icon(
                               Icons.favorite_border_outlined,
                               color: HomeShopCubit.get(context)
-                                      .favorites[model.product.id]
+                                      .favorites[model.product!.id]!
                                   ? Colors.deepOrange
                                   : Colors.grey,
                             )),

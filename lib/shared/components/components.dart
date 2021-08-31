@@ -2,21 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 Widget defaultFormField(
-        {TextEditingController controller,
-        String hint,
-        Function onTap,
-        IconData preIcon,
-        IconData sufIcon,
-        Function suffixPressed,
+        {TextEditingController? controller,
+        String? hint,
+        Function? onTap,
+        IconData? preIcon,
+        IconData? sufIcon,
+        Function? suffixPressed,
         bool isPassword =false,
-        Function onChange}) =>
+        Function? onChange}) =>
     TextFormField(
       controller: controller,
-      onTap: onTap,
+      onTap: (){
+        onTap!();
+      },
       obscureText: isPassword,
-      onChanged: onChange,
+      onChanged: (s){
+        onChange!(s);
+      },
       validator: (value) {
-        if (value.isEmpty) {
+        if (value!.isEmpty) {
           return '$hint must be provided';
         }
         return null;
@@ -29,7 +33,9 @@ Widget defaultFormField(
         suffixIcon: IconButton(
           icon: Icon(sufIcon),
           color: Colors.grey,
-          onPressed: suffixPressed,
+          onPressed: (){
+            suffixPressed!();
+          },
         ),
         // contentPadding: EdgeInsets.symmetric(horizontal:16.0),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(15.0)),
@@ -37,16 +43,18 @@ Widget defaultFormField(
       ),
     );
 
-Widget defaultTextButton({String title, Function tap, Color color}) =>
+Widget defaultTextButton({required String title, Function? tap, required Color color}) =>
     TextButton(
-      onPressed: tap,
+      onPressed: (){
+        tap!();
+      },
       child: Text(
         title,
         style: TextStyle(letterSpacing: 0.1, fontSize: 18.0, color: color),
       ),
     );
 
-Widget defaultButton ({String buttonTitle, Function onTap}) => Container(
+Widget defaultButton ({required String buttonTitle,  required Function onTap}) => Container(
   width: double.infinity,
   height: 45.0,
   child:   ElevatedButton(
@@ -55,9 +63,11 @@ Widget defaultButton ({String buttonTitle, Function onTap}) => Container(
          // onPrimary: Colors.white,
           shape: const BeveledRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5.0)) )
       ),
-      onPressed: onTap, child: Text(buttonTitle)),
+      onPressed: (){
+        onTap();
+      }, child: Text(buttonTitle)),
 );
-void navigateTo({@required context, @required Widget widget}) {
+void navigateTo({required context, required Widget widget}) {
   Navigator.push(context, MaterialPageRoute(builder: (context) => widget));
 }
 
@@ -67,7 +77,7 @@ Widget myDivider() => Container(
   color: Colors.grey[300],
 );
 
-void navigateAndFinish({@required context, @required Widget widget}) {
+void navigateAndFinish({required context, required Widget widget}) {
   Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(builder: (context) => widget),
@@ -75,7 +85,7 @@ void navigateAndFinish({@required context, @required Widget widget}) {
 }
 
 
-void showToast({@required String text, @required ToastState state}){
+void showToast({required String text, required ToastState state}){
   Fluttertoast.showToast(
       msg: text,
       toastLength: Toast.LENGTH_LONG,

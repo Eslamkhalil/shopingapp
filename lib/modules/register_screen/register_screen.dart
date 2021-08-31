@@ -27,13 +27,13 @@ class ShopRegister extends StatelessWidget {
             if (state is ShopRegisterSuccessState) {
               if (state.model.status) {
                 print('true ya3m el7g');
-                print('token is' + '${state.model.data.token}');
+                print('token is' + '${state.model.data!.token}');
                 CacheHelper.saveData(
-                    key: 'token', value: state.model.data.token);
-                showToast(text: state.model.message, state: ToastState.SUCCESS);
+                    key: 'token', value: state.model.data!.token);
+                showToast(text: state.model.message!, state: ToastState.SUCCESS);
                 navigateAndFinish(context: context, widget: Home());
               } else {
-                showToast(text: state.model.message, state: ToastState.ERROR);
+                showToast(text: state.model.message!, state: ToastState.ERROR);
                 //print(state.model.message);
               }
             }
@@ -112,7 +112,7 @@ class ShopRegister extends StatelessWidget {
                           defaultButton(
                               buttonTitle: 'REGISTER',
                               onTap: () {
-                                if (formKey.currentState.validate()) {
+                                if (formKey.currentState!.validate()) {
                                   ShopRegisterCubit.get(context).userRegister(
                                       name: nameController.text,
                                       phone: phoneController.text,

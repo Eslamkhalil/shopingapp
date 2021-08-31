@@ -2,9 +2,9 @@
 
 class UserModel {
 
-  bool status;
-  String message;
-  UserData data;
+  late bool status;
+  String? message;
+  UserData? data;
   UserModel.fromJson(Map<String,dynamic> json){
     status = json['status'];
     message = json['message'];
@@ -15,14 +15,14 @@ class UserModel {
 }
 class UserData {
 
-  int id ;
-  String name ;
-  String email;
-  String phone;
-  String image;
-  int points;
-  int credit;
-  String token;
+  int? id ;
+  String? name ;
+  String? email;
+  String? phone;
+  String? image;
+  int? points;
+  int? credit;
+  String? token;
 
 
   UserData.fromJson(Map<String,dynamic> json){

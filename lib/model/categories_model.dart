@@ -1,7 +1,7 @@
 class CategoriesModel {
-  bool status;
+  late bool status;
 
-  CategoryDataModel data;
+   CategoryDataModel? data;
 
   CategoriesModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
@@ -9,25 +9,23 @@ class CategoriesModel {
   }
 }
 
-class CategoryDataModel{
+class CategoryDataModel {
+   int? currentPage;
+  List<CategoryData> categoryData = [];
 
-  int currentPage;
-  List<CategoryData> categoryData =[];
-
-  CategoryDataModel.fromJson(Map<String,dynamic> json){
+  CategoryDataModel.fromJson(Map<String, dynamic> json) {
     currentPage = json['current_page'];
-    json['data'].forEach((element){
+    json['data'].forEach((element) {
       categoryData.add(CategoryData.fromJson(element));
-
     });
   }
 }
 
 class CategoryData {
-  int id;
+  late int id;
 
-  String name;
-  String image;
+  late String name;
+  late String image;
 
   CategoryData.fromJson(Map<String, dynamic> json) {
     id = json['id'];

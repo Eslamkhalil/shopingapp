@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:flutter/animation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,7 +14,7 @@ class ShopLoginCubit extends Cubit<ShopLoginStates> {
 
   bool isPasswordShown = true;
   IconData sufIcon = Icons.visibility_outlined;
-  UserModel _userLogin;
+  UserModel? _userLogin;
 
   void changePasswordVisibility() {
     isPasswordShown = !isPasswordShown;
@@ -26,18 +25,21 @@ class ShopLoginCubit extends Cubit<ShopLoginStates> {
     emit(PasswordChangeVisibility());
   }
 
-  void userLogin(String email, String password) {
+  void userLogin(String email, String password) async {
     emit(ShopLoginLoadingState());
-    DioHelper.postData(url: LOGIN, data: {
+    await DioHelper.postData(url: LOGIN,
+        query: {},
+        token: "",
+        data: {
       'email': email,
       'password': password,
     }).then((value) {
+      print(value.data);
       _userLogin = UserModel.fromJson(value.data);
-      emit(ShopLoginSuccessState(_userLogin));
-
+      emit(ShopLoginSuccessState(_userLogin!));
     }).catchError((onError) {
-      emit(ShopLoginErrorState(onError.toString()));
       print(onError.toString());
+      emit(ShopLoginErrorState(onError.toString()));
     });
   }
 }
